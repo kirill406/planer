@@ -7,6 +7,7 @@ const SHELL = [
   "/static/js/app.js",
   "/static/js/engine.js",
   "/static/js/clock.js",
+  "/static/js/coach.js",
   "/static/js/format.js",
   "/static/js/notify.js",
   "/static/js/store.js",
