@@ -24,7 +24,7 @@
 - `src/planer/<domain>/` — `models`, `schemas`, `service` (DAO), `router`: `leads/` (заявки), `analytics/` (события), `admin/` (воронка), `pages/` (HTML-страницы)
 - `frontend/templates/` — Jinja: `landing.html`, `app.html`, `admin.html`, `base.html`
 - `frontend/static/js/engine.js` — **чистый движок плана** (без DOM, без `Date.now()` внутри): расписание, сжатие, прогноз, итоги
-- `frontend/static/js/` — `app.js` (UI-контроллер), `store.js` (localStorage), `clock.js` (часы и демо-ускорение), `notify.js` (уведомления, звук), `strings.js` (все тексты UI), `templates.js` (шаблоны планов), `track.js` (аналитика), `landing.js`, `sw.js`
+- `frontend/static/js/` — `app.js` (UI-контроллер), `coach.js` (сообщения старта/опоздания), `format.js` (форматирование времени), `store.js` (localStorage), `clock.js` (часы и демо-ускорение), `notify.js` (уведомления, звук), `strings.js` (все тексты UI), `templates.js` (шаблоны планов), `track.js` (аналитика), `landing.js`, `sw.js`
 - `migrations/` — Alembic (async, `render_as_batch` для SQLite)
 - `specs/` — `spec.md` (общая спека), `plan.md` (дорожная карта), `SUMMARY.md` (регламент), `NNN-slug/`
 - `docs/architecture.md` — архитектура и решения (единый источник правды)
@@ -65,7 +65,7 @@
 - Багфикс → регрессионный тест
 
 ## Planning & Specs (регламент: `specs/SUMMARY.md`)
-- Фича: `specs/NNN-slug/spec.md` (что/зачем) + `plan.md` (как)
+- Фича: `specs/NNN-slug/spec.md` (что/зачем) + `plan.md` (как, для крупных фич)
 - Перед работой: прочитать `specs/spec.md`, `specs/plan.md`, `specs/SUMMARY.md`, взять Active
 - После: перенести в Done одной фразой, обновить `CHANGELOG.md [Unreleased]`, знания — в `docs/` и `AGENTS.md`
 
