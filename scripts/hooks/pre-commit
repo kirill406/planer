@@ -12,7 +12,7 @@ uv run --quiet pytest -q || FAIL=1
 if ! ls tests/js/*.test.mjs >/dev/null 2>&1; then
   echo "pre-commit: no JS tests yet"
 elif command -v node >/dev/null 2>&1; then
-  node --test tests/js/ || FAIL=1
+  node --test "tests/js/*.test.mjs" || FAIL=1
 else
   echo "pre-commit: node not found, skipping JS tests"
 fi
