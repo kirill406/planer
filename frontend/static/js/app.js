@@ -2,6 +2,7 @@
 // Logic of time lives in engine.js, texts in strings.js.
 import * as E from "./engine.js";
 import { SPEEDS, clockNow, makeClock } from "./clock.js";
+import { itemName, overdueMessage, startMessage } from "./coach.js";
 import { fmtClock, fmtSpan, fmtTimer, startOfDay } from "./format.js";
 import * as notify from "./notify.js";
 import * as store from "./store.js";
@@ -35,7 +36,6 @@ const ESCAPES = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&
 const esc = (value) => String(value ?? "").replace(/[&<>"']/g, (ch) => ESCAPES[ch]);
 
 const now = () => clockNow(state.run?.clock ?? null);
-const itemName = (title, index) => title?.trim() || `${S.newItem} ${index + 1}`;
 
 const ICONS = {
   lock: '<path d="M7 11V8a5 5 0 0 1 10 0v3"/><rect x="5" y="11" width="14" height="10" rx="2"/>',
@@ -89,22 +89,6 @@ function go(path) {
 }
 
 // ---------- messages ----------
-
-function startMessage(run) {
-  const item = run.items[run.current];
-  if (item.startKind === "early") {
-    return { tone: "good", title: S.msgEarly, text: S.msgEarlySub(fmtSpan(-item.startDelta)) };
-  }
-  if (item.startKind === "ontime" && item.factor === 1) {
-    const text = S.msgOntimeSub(itemName(item.title, run.current), fmtSpan(item.allotted));
-    return { tone: "good", title: S.msgOntime, text };
-  }
-  const delay = fmtSpan(Math.max(item.startDelta, 0));
-  const pct = Math.round((1 - item.factor) * 100);
-  let text = item.factor < 1 ? S.msgLateSub(delay, pct) : S.msgLateNoCompress(delay);
-  if (item.shortfall > TOL) text += ` ${S.msgShortfall(fmtSpan(item.shortfall))}`;
-  return { tone: item.shortfall > TOL ? "bad" : "warn", title: S.msgLate, text };
-}
 
 function withMessage(run, message) {
   return { ...run, ui: message };
@@ -660,10 +644,9 @@ function completeRun(run) {
 
 function handleOverdue() {
   const run = E.markNotified(state.run);
-  const item = run.items[run.current];
-  const name = itemName(item.title, run.current);
-  setRun(withMessage(run, { tone: "bad", title: S.msgOverdue(name), text: S.msgOverdueSub }));
-  notify.showNotification(S.msgOverdue(name), S.msgOverdueSub);
+  const message = overdueMessage(run);
+  setRun(withMessage(run, message));
+  notify.showNotification(message.title, message.text);
   if (state.settings.sound) {
     notify.beep();
     notify.vibrate();

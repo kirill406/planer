@@ -1,0 +1,243 @@
+{% extends "base.html" %}
+{% block title %}Вовремя — планер, который успевает за вас{% endblock %}
+{% block head %}
+  <link rel="stylesheet" href="/static/css/landing.css?v={{ asset_version }}">
+  <script type="module" src="/static/js/landing.js?v={{ asset_version }}"></script>
+{% endblock %}
+{% block body_class %}landing{% endblock %}
+{% block body %}
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a class="brand" href="/"><img src="/static/img/icon.svg" alt="" width="30" height="30"> Вовремя</a>
+    <nav class="nav-links" aria-label="Разделы">
+      <a href="#how">Как работает</a>
+      <a href="#who">Для кого</a>
+      <a href="#pricing">Тарифы</a>
+      <a href="#faq">Вопросы</a>
+    </nav>
+    <a class="btn btn-primary btn-sm" href="/app" data-cta="nav">Попробовать</a>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <span class="pill" id="hero-pill">Планер с умным таймером</span>
+        <h1 id="hero-title">Заканчивайте вовремя, даже если начали позже</h1>
+        <p class="lead" id="hero-lead">Вовремя ведёт по плану минута в минуту: отсчитывает время каждого пункта, напоминает, когда пора дальше, и при опоздании сам пересчитывает остаток плана — так, чтобы вы успели к финишу.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary btn-lg" href="/app" data-cta="hero">Попробовать бесплатно</a>
+          <a class="btn btn-ghost btn-lg" href="#signup" data-cta="hero-waitlist">Хочу ранний доступ</a>
+        </div>
+        <p class="hero-note muted">Без регистрации · работает в браузере и на телефоне</p>
+      </div>
+      <div class="hero-demo" aria-label="Демонстрация пересчёта плана">
+        <div class="phone">
+          <div class="phone-notch"></div>
+          <div class="phone-screen" id="demo">
+            <div class="phone-status level-good" id="demo-status">
+              <span class="dot"></span>
+              <span class="phone-status-main"><b id="demo-current">Душ</b><small id="demo-meta">по графику</small></span>
+              <span class="phone-timer num" id="demo-timer">10:00</span>
+            </div>
+            <div class="phone-coach tone-good" id="demo-coach"><b>Начинаем вовремя</b><span>«Душ» — 10 мин.</span></div>
+            <ul class="phone-list" id="demo-list"></ul>
+            <div class="phone-finish num" id="demo-finish"></div>
+          </div>
+        </div>
+        <p class="demo-caption muted">Живой пример: опоздали на 6 минут — план сжался, фиксированная «Дорога» не тронута.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="wrap">
+      <h2 class="section-title">Знакомо?</h2>
+      <div class="cards-3">
+        <article class="card feature">
+          <div class="feature-icon">⏰</div>
+          <h3>План разваливается через час</h3>
+          <p class="muted">Один пункт затянулся — и дальше всё наперекосяк. Непонятно, что ужать, а что выкинуть.</p>
+        </article>
+        <article class="card feature">
+          <div class="feature-icon">🫥</div>
+          <h3>Время «исчезает»</h3>
+          <p class="muted">Погрузились в дело и потеряли счёт минутам. Очнулись, когда уже опаздываете.</p>
+        </article>
+        <article class="card feature">
+          <div class="feature-icon">🎯</div>
+          <h3>Оценки всегда мимо</h3>
+          <p class="muted">«Сборы за 10 минут» на деле занимают 25. Каждый раз. И план снова нереалистичен.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-block" id="how">
+    <div class="wrap">
+      <h2 class="section-title">Как работает</h2>
+      <ol class="steps">
+        <li class="card step">
+          <span class="step-num">1</span>
+          <h3>Составьте план</h3>
+          <p class="muted">Пункты и примерное время на каждый. Укажите начало — или «закончить к 8:30», и Вовремя посчитает, когда начинать. Отметьте то, что сократить нельзя: дорогу, кофе-брейк.</p>
+        </li>
+        <li class="card step">
+          <span class="step-num">2</span>
+          <h3>Идите по шагам</h3>
+          <p class="muted">Таймер на каждый пункт, уведомление, когда время вышло, и строка состояния: насколько вы впереди или позади и во сколько закончите.</p>
+        </li>
+        <li class="card step">
+          <span class="step-num">3</span>
+          <h3>Учитесь на факте</h3>
+          <p class="muted">После плана — итоги по каждому пункту. Если пункт стабильно занимает больше или меньше, Вовремя предложит поправить время или разбить его на части.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="wrap split">
+      <div>
+        <h2 class="section-title left">Опоздали? План пересчитается сам</h2>
+        <ul class="checks">
+          <li><b>Начали раньше</b> — «Отлично, идём с запасом». Время пунктов не растягивается, вы просто закончите раньше.</li>
+          <li><b>Начали вовремя</b> — обычный отсчёт и напоминание по окончании.</li>
+          <li><b>Начали позже</b> — «Кажется, мы опаздываем». Оставшиеся пункты пропорционально сжимаются, чтобы успеть к финишу. Фиксированные не трогаем.</li>
+          <li><b>Не успеваем даже со сжатием</b> — честно покажем прогноз и предложим пропустить пункт.</li>
+        </ul>
+      </div>
+      <div class="card compare">
+        <div class="compare-head"><span>Пункт</span><span>По плану</span><span>После опоздания на 6 мин</span></div>
+        <div class="compare-row"><span>Душ</span><span class="num">10 мин</span><span class="num tone-warn">8 мин</span></div>
+        <div class="compare-row"><span>Завтрак</span><span class="num">15 мин</span><span class="num tone-warn">12 мин</span></div>
+        <div class="compare-row"><span>Сборы</span><span class="num">10 мин</span><span class="num tone-warn">8 мин</span></div>
+        <div class="compare-row"><span>Дорога 🔒</span><span class="num">15 мин</span><span class="num">15 мин</span></div>
+        <div class="compare-foot"><span>Финиш</span><span class="num">08:30</span><span class="num tone-good">08:30 ✓</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-block" id="who">
+    <div class="wrap">
+      <h2 class="section-title">Для кого</h2>
+      <div class="cards-2">
+        <article class="card audience">
+          <h3>Для себя</h3>
+          <p class="muted">Утренние сборы, рабочий день блоками, дорога в аэропорт. Особенно полезно, если время «утекает» незаметно — например, при СДВГ.</p>
+          <ul class="ticks">
+            <li>Мягкие напоминания вместо будильников</li>
+            <li>Видно, сколько осталось и во сколько закончите</li>
+            <li>Оценки времени становятся точнее с каждым разом</li>
+          </ul>
+          <a class="btn btn-ghost" href="/app" data-cta="who-personal">Попробовать на своём утре</a>
+        </article>
+        <article class="card audience">
+          <h3>Для мероприятий и встреч</h3>
+          <p class="muted">Программа конференции, повестка встречи, план урока или воркшопа. Спикер затянул — остальные блоки пересчитаются, кофе-брейк останется на месте.</p>
+          <ul class="ticks">
+            <li>Фиксированные блоки: кейтеринг, трансляция, аренда</li>
+            <li>Прогноз окончания в реальном времени</li>
+            <li>Итоги: какие блоки всегда выходят за рамки</li>
+          </ul>
+          <a class="btn btn-ghost" href="/app" data-cta="who-events">Открыть шаблон конференции</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="pricing">
+    <div class="wrap">
+      <h2 class="section-title">Тарифы</h2>
+      <p class="section-sub muted">Сейчас всё бесплатно. Платные тарифы откроются скоро — первым пользователям скидка 50%.</p>
+      <div class="pricing">
+        <article class="card price">
+          <h3>Бесплатно</h3>
+          <div class="price-tag"><b>0 ₽</b></div>
+          <ul class="ticks">
+            <li>Планы, таймеры и пересчёт</li>
+            <li>Итоги и подсказки</li>
+            <li>Работает в браузере</li>
+          </ul>
+          <a class="btn btn-ghost btn-block" href="/app" data-tier="free">Начать бесплатно</a>
+        </article>
+        <article class="card price featured">
+          <span class="price-badge">Популярный</span>
+          <h3>Pro</h3>
+          <div class="price-tag"><b>299 ₽</b><span>/мес</span></div>
+          <ul class="ticks">
+            <li>Синхронизация между устройствами</li>
+            <li>Надёжные уведомления в приложении для телефона</li>
+            <li>Повторяющиеся рутины и статистика</li>
+          </ul>
+          <button class="btn btn-primary btn-block" type="button" data-tier="pro">Купить Pro</button>
+        </article>
+        <article class="card price">
+          <h3>Команда</h3>
+          <div class="price-tag"><b>990 ₽</b><span>/мес</span></div>
+          <ul class="ticks">
+            <li>Общий план для команды мероприятия</li>
+            <li>Экран ведущего и сцены по ссылке</li>
+            <li>Всё из Pro для 5 человек</li>
+          </ul>
+          <button class="btn btn-ghost btn-block" type="button" data-tier="team">Подключить команду</button>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-block" id="signup">
+    <div class="wrap narrow">
+      <div class="card signup">
+        <h2 id="signup-title">Получить ранний доступ</h2>
+        <p class="muted" id="signup-sub">Оставьте email — напишем, когда откроются приложение для телефона и командный тариф. Без спама.</p>
+        <p class="tier-note" id="tier-note" hidden></p>
+        <form id="lead-form" novalidate>
+          <label class="field">
+            <span>Email</span>
+            <input class="input" type="email" name="email" autocomplete="email" required placeholder="you@example.com">
+          </label>
+          <label class="field">
+            <span>Для чего будете использовать</span>
+            <select class="input" name="segment" required>
+              <option value="personal">Личные дела и рутины</option>
+              <option value="adhd">Борюсь с «утеканием» времени (СДВГ)</option>
+              <option value="events">Мероприятия и конференции</option>
+              <option value="meetings">Встречи, уроки, воркшопы</option>
+              <option value="other">Другое</option>
+            </select>
+          </label>
+          <label class="field">
+            <span>Что хотите планировать? <em class="muted">(необязательно)</em></span>
+            <textarea class="input" name="comment" rows="2" maxlength="500" placeholder="Например: утро с детьми, программа митапа"></textarea>
+          </label>
+          <input type="hidden" name="tier" value="none">
+          <label class="hp" aria-hidden="true">Сайт <input type="text" name="website" tabindex="-1" autocomplete="off"></label>
+          <button class="btn btn-primary btn-lg btn-block" type="submit">Хочу ранний доступ</button>
+          <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
+          <p class="consent muted">Нажимая кнопку, вы соглашаетесь получать письма о запуске Вовремя. Отписаться можно в любой момент.</p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="faq">
+    <div class="wrap narrow">
+      <h2 class="section-title">Вопросы</h2>
+      <details class="faq"><summary>Чем это отличается от будильника или таймера?</summary><p>Таймер считает одно дело. Вовремя держит в голове весь план: видит, что вы отстаёте, и перераспределяет оставшееся время, чтобы вы успели к финишу.</p></details>
+      <details class="faq"><summary>А если пункт нельзя ускорить?</summary><p>Отметьте его как фиксированный — например, дорогу или кофе-брейк. Сжимаются только остальные пункты, и не больше заданного предела.</p></details>
+      <details class="faq"><summary>Где хранятся мои планы?</summary><p>Пока только в вашем браузере, на вашем устройстве. Мы собираем лишь анонимную статистику использования без cookies.</p></details>
+      <details class="faq"><summary>Работает на телефоне?</summary><p>Да, в браузере. Добавьте страницу на экран «Домой» — так уведомления работают надёжнее. Нативное приложение — в тарифе Pro.</p></details>
+      <details class="faq"><summary>Сколько это стоит?</summary><p>Сейчас бесплатно. Если оставите email, получите скидку 50% на платный тариф, когда он появится.</p></details>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="wrap footer-inner">
+    <span><b>Вовремя</b> · MVP {{ app_version }}</span>
+    <a href="/app">Открыть планер</a>
+  </div>
+</footer>
+{% endblock %}

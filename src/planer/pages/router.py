@@ -1,3 +1,5 @@
+from datetime import UTC, datetime
+
 from fastapi import APIRouter, Request
 from fastapi.responses import FileResponse, HTMLResponse
 from fastapi.templating import Jinja2Templates
@@ -5,9 +7,18 @@ from fastapi.templating import Jinja2Templates
 from planer import __version__
 from planer.core.config import STATIC_DIR, TEMPLATES_DIR
 
+
+def localtime(value: datetime) -> datetime:
+    """Show DB timestamps in server local time; SQLite drops tzinfo."""
+    if value.tzinfo is None:
+        value = value.replace(tzinfo=UTC)
+    return value.astimezone()
+
+
 templates = Jinja2Templates(directory=TEMPLATES_DIR)
 templates.env.globals["asset_version"] = __version__
 templates.env.globals["app_version"] = __version__
+templates.env.filters["localtime"] = localtime
 
 router = APIRouter(tags=["pages"])
 

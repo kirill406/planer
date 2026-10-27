@@ -48,7 +48,7 @@
         <tbody>
           {% for lead in leads %}
           <tr>
-            <td>{{ lead.created_at.strftime('%d.%m %H:%M') }}</td>
+            <td>{{ (lead.created_at|localtime).strftime('%d.%m %H:%M') }}</td>
             <td>{{ lead.email }}</td>
             <td>{{ lead.segment }}</td>
             <td>{{ lead.tier }}</td>
