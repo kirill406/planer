@@ -32,3 +32,6 @@ Thumbs.db
 
 # === Logs ===
 *.log
+
+# === Local tooling ===
+.claude/settings.local.json

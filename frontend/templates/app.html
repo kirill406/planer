@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Вовремя — планер{% endblock %}
+{% block head %}
+  <link rel="stylesheet" href="/static/css/app.css?v={{ asset_version }}">
+  <script type="module" src="/static/js/app.js?v={{ asset_version }}"></script>
+{% endblock %}
+{% block body_class %}app-body{% endblock %}
+{% block body %}
+<header class="topbar">
+  <a class="brand" href="#/"><img src="/static/img/icon.svg" alt="" width="28" height="28"> Вовремя</a>
+  <a class="topbar-link" href="/">О проекте</a>
+</header>
+<a id="statusbar" class="statusbar" href="#/run" hidden aria-live="off">
+  <span class="status-dot" aria-hidden="true"></span>
+  <span class="status-main">
+    <span class="status-title" id="st-title"></span>
+    <span class="status-meta" id="st-meta"></span>
+  </span>
+  <span class="status-time num" id="st-time"></span>
+</a>
+<main class="shell" id="app">
+  <noscript>Для работы планера нужен JavaScript.</noscript>
+</main>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<footer class="app-footer muted small">Вовремя · MVP {{ app_version }}</footer>
+{% endblock %}

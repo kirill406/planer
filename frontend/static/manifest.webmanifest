@@ -1,0 +1,19 @@
+{
+  "name": "Вовремя — планер",
+  "short_name": "Вовремя",
+  "description": "Ведёт по плану и пересчитывает время, чтобы закончить вовремя",
+  "lang": "ru",
+  "start_url": "/app",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#f6f7f5",
+  "theme_color": "#0e9f6e",
+  "icons": [
+    {
+      "src": "/static/img/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
