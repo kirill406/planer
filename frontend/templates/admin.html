@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block title %}Воронка · Вовремя{% endblock %}
+{% block body_class %}admin{% endblock %}
+{% block body %}
+<main class="admin-wrap">
+  <header class="admin-head">
+    <h1>Воронка спроса</h1>
+    <a class="btn btn-ghost" href="/admin/leads.csv">Скачать заявки (CSV)</a>
+  </header>
+
+  <section class="card">
+    <h2>Конверсии</h2>
+    <table class="table">
+      <thead><tr><th>Шаг</th><th>Сессий</th><th>Конверсия</th></tr></thead>
+      <tbody>
+        {% for title, count, rate in funnel %}
+        <tr><td>{{ title }}</td><td class="num">{{ count }}</td><td class="num">{{ rate }}</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <p class="muted">Критерии «продолжать / остановиться» — в specs/plan.md.</p>
+  </section>
+
+  <div class="admin-grid">
+    <section class="card">
+      <h2>Клики по тарифам</h2>
+      {% for key, count in tiers.items() %}<div class="kv"><span>{{ key }}</span><b>{{ count }}</b></div>{% else %}<p class="muted">Пока нет</p>{% endfor %}
+    </section>
+    <section class="card">
+      <h2>Сегменты заявок</h2>
+      {% for key, count in segments.items() %}<div class="kv"><span>{{ key }}</span><b>{{ count }}</b></div>{% else %}<p class="muted">Пока нет</p>{% endfor %}
+    </section>
+    <section class="card">
+      <h2>Старты планов</h2>
+      {% for key, count in starts.items() %}<div class="kv"><span>{{ key }}</span><b>{{ count }}</b></div>{% else %}<p class="muted">Пока нет</p>{% endfor %}
+    </section>
+    <section class="card">
+      <h2>Все события</h2>
+      {% for key, count in events.items() %}<div class="kv"><span>{{ key }}</span><b>{{ count }}</b></div>{% else %}<p class="muted">Пока нет</p>{% endfor %}
+    </section>
+  </div>
+
+  <section class="card">
+    <h2>Заявки ({{ leads|length }})</h2>
+    <div class="table-scroll">
+      <table class="table">
+        <thead><tr><th>Дата</th><th>Email</th><th>Сегмент</th><th>Тариф</th><th>Комментарий</th></tr></thead>
+        <tbody>
+          {% for lead in leads %}
+          <tr>
+            <td>{{ lead.created_at.strftime('%d.%m %H:%M') }}</td>
+            <td>{{ lead.email }}</td>
+            <td>{{ lead.segment }}</td>
+            <td>{{ lead.tier }}</td>
+            <td>{{ lead.comment }}</td>
+          </tr>
+          {% else %}
+          <tr><td colspan="5" class="muted">Заявок пока нет</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>
+</main>
+{% endblock %}

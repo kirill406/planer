@@ -1,0 +1,18 @@
+services:
+  planer:
+    build: .
+    container_name: planer
+    restart: unless-stopped
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      - PLANER_HOST=0.0.0.0
+      - PLANER_DATABASE_URL=sqlite+aiosqlite:////data/planer.db
+    ports:
+      - "8000:8000"
+    volumes:
+      - planer-data:/data
+
+volumes:
+  planer-data:

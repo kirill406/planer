@@ -1,0 +1,21 @@
+#!/bin/sh
+# pre-commit: ruff + pytest + node engine tests.
+# Install once: git config core.hooksPath scripts/hooks
+REPO_ROOT="$(git rev-parse --show-toplevel)" || exit 1
+cd "$REPO_ROOT" || exit 1
+FAIL=0
+
+uv run --quiet ruff check . || FAIL=1
+uv run --quiet ruff format --check . || FAIL=1
+uv run --quiet pytest -q || FAIL=1
+
+if ! ls tests/js/*.test.mjs >/dev/null 2>&1; then
+  echo "pre-commit: no JS tests yet"
+elif command -v node >/dev/null 2>&1; then
+  node --test tests/js/ || FAIL=1
+else
+  echo "pre-commit: node not found, skipping JS tests"
+fi
+
+[ $FAIL -eq 0 ] || echo "pre-commit FAILED (fix or ask before --no-verify)"
+exit $FAIL

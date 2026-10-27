@@ -1,0 +1,22 @@
+#!/bin/sh
+# commit-msg: Conventional Commits, title <= 72 characters.
+MSG_FILE="$1"
+TITLE="$(head -n 1 "$MSG_FILE")"
+TYPES="feat|fix|docs|style|refactor|test|chore|perf|build|ci"
+
+case "$TITLE" in
+  Merge*|Revert*) exit 0 ;;
+esac
+
+if ! printf '%s' "$TITLE" | grep -Eq "^($TYPES)(\([a-z0-9-]+\))?!?: .+"; then
+  echo "Bad commit title: $TITLE"
+  echo "Format: <type>(scope): <description>, type: $TYPES"
+  exit 1
+fi
+
+LEN="$(printf '%s' "$TITLE" | LC_ALL=C.UTF-8 wc -m | tr -d ' ')"
+if [ "$LEN" -gt 72 ]; then
+  echo "Commit title is $LEN characters, max 72"
+  exit 1
+fi
+exit 0
