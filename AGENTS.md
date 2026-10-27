@@ -5,7 +5,7 @@
 - Run (dev): `uv run planer` — применяет миграции и запускает сервер на http://127.0.0.1:8000
 - Run (autoreload): `PLANER_RELOAD=true uv run planer`
 - Install git hooks: `git config core.hooksPath scripts/hooks`
-- Test (all): `uv run pytest` + `node --test tests/js/`
+- Test (all): `uv run pytest` + `node --test "tests/js/*.test.mjs"`
 - Lint/format: `uv run ruff check --fix . && uv run ruff format .`
 - New migration: `uv run alembic revision --autogenerate -m "<what>"`; apply: `uv run alembic upgrade head`
 - Docker: `docker compose up --build` (SQLite в volume `planer-data`)
