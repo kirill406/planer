@@ -44,8 +44,13 @@ uv run planer
 ### Docker
 
 ```bash
-docker compose up --build
+docker compose up -d --build
 ```
+
+Данные (SQLite) лежат в volume `planer-data` и переживают перезапуск.
+Пароль `/admin` берётся из `.env`. Если порт 8000 занят, задайте
+`PLANER_HOST_PORT` в `.env`. Контейнер работает под непривилегированным
+пользователем; состояние — в `docker compose ps` (healthcheck `/healthz`).
 
 ## Как показать на презентации
 
