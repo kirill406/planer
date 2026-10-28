@@ -1,16 +1,20 @@
 services:
   planer:
     build: .
+    image: planer:latest
     container_name: planer
     restart: unless-stopped
     env_file:
       - path: .env
         required: false
+    # Inside the container these are fixed; .env must not override them.
     environment:
       - PLANER_HOST=0.0.0.0
+      - PLANER_PORT=8000
+      - PLANER_RELOAD=false
       - PLANER_DATABASE_URL=sqlite+aiosqlite:////data/planer.db
     ports:
-      - "8000:8000"
+      - "${PLANER_HOST_PORT:-8000}:8000"
     volumes:
       - planer-data:/data
 
