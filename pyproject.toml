@@ -1,6 +1,6 @@
 [project]
 name = "planer"
-version = "0.1.0-alpha"
+version = "0.1.1-alpha"
 description = "Вовремя — планер с таймерами: ведёт по плану и пересчитывает время, чтобы закончить вовремя"
 readme = "README.md"
 authors = [

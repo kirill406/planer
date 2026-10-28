@@ -8,7 +8,7 @@
 - Test (all): `uv run pytest` + `node --test "tests/js/*.test.mjs"`
 - Lint/format: `uv run ruff check --fix . && uv run ruff format .`
 - New migration: `uv run alembic revision --autogenerate -m "<what>"`; apply: `uv run alembic upgrade head`
-- Docker: `docker compose up --build` (SQLite в volume `planer-data`)
+- Docker: `docker compose up -d --build` (SQLite в volume `planer-data`; внешний порт — `PLANER_HOST_PORT`)
 
 ## Stack
 - Python 3.13, FastAPI, Jinja2, SQLAlchemy 2 async, Alembic, pydantic-settings
