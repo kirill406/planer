@@ -41,7 +41,8 @@
   </div>
 
   <section class="card">
-    <h2>Заявки ({{ leads|length }})</h2>
+    <h2>Заявки ({{ leads_total }})</h2>
+    {% if leads|length < leads_total %}<p class="muted">Показаны последние {{ leads|length }}, все — в CSV.</p>{% endif %}
     <div class="table-scroll">
       <table class="table">
         <thead><tr><th>Дата</th><th>Email</th><th>Сегмент</th><th>Тариф</th><th>Комментарий</th></tr></thead>
