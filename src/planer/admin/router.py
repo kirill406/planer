@@ -19,6 +19,10 @@ router = APIRouter(prefix="/admin", tags=["admin"])
 security = HTTPBasic(auto_error=False)
 
 ADMIN_USER = "admin"
+# Rows shown on the page; totals and conversions use COUNT(*) instead.
+ADMIN_LEADS_LIMIT = 500
+# Spreadsheet apps treat cells starting with these as formulas.
+FORMULA_PREFIXES = ("=", "+", "-", "@", "\t", "\r")
 
 
 def require_admin(
@@ -44,6 +48,11 @@ def percent(part: int, whole: int) -> str:
     return f"{part / whole * 100:.1f}%" if whole else "—"
 
 
+def csv_safe(value: str) -> str:
+    """Neutralize CSV/formula injection from user-supplied text."""
+    return f"'{value}" if value.startswith(FORMULA_PREFIXES) else value
+
+
 @router.get("", response_class=HTMLResponse)
 async def admin_page(
     request: Request,
@@ -55,11 +64,12 @@ async def admin_page(
     clickers = await EventDAO.unique_sessions(session, "pricing_click")
     app_users = await EventDAO.unique_sessions(session, "app_open")
     runners = await EventDAO.unique_sessions(session, "run_started")
-    leads = await LeadDAO.list_leads(session)
+    leads = await LeadDAO.list_leads(session, limit=ADMIN_LEADS_LIMIT)
+    leads_total = await LeadDAO.count(session)
     funnel = [
         ("Уникальные посетители лендинга", visitors, ""),
         ("Нажали «Купить» в тарифах", clickers, percent(clickers, visitors)),
-        ("Оставили заявку", len(leads), percent(len(leads), visitors)),
+        ("Оставили заявку", leads_total, percent(leads_total, visitors)),
         ("Открыли приложение", app_users, ""),
         ("Запустили план", runners, percent(runners, app_users)),
     ]
@@ -70,6 +80,7 @@ async def admin_page(
         "starts": await EventDAO.count_prop(session, "run_started", "kind"),
         "segments": await LeadDAO.count_by(session, "segment"),
         "leads": leads,
+        "leads_total": leads_total,
     }
     return templates.TemplateResponse(request, "admin.html", context)
 
@@ -86,10 +97,10 @@ async def leads_csv(
         writer.writerow(
             [
                 lead.created_at.isoformat(),
-                lead.email,
+                csv_safe(lead.email),
                 lead.segment,
                 lead.tier,
-                lead.comment,
+                csv_safe(lead.comment),
             ]
         )
     return Response(

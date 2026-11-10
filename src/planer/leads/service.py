@@ -49,6 +49,11 @@ class LeadDAO:  # Data Access Object
         return list((await session.execute(query)).scalars().all())
 
     @classmethod
+    async def count(cls, session: AsyncSession) -> int:
+        query = select(func.count()).select_from(Lead)
+        return (await session.execute(query)).scalar_one()
+
+    @classmethod
     async def count_by(
         cls, session: AsyncSession, column: str
     ) -> dict[str, int]:
